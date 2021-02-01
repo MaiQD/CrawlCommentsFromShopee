@@ -1,0 +1,30 @@
+﻿<div class="card mb-4">
+	<h6 class="card-header">
+		Put product link
+	</h6>
+	<div class="card-body demo-vertical-spacing-sm">
+
+		<div class="input-group">
+			<input type="text" id="qd_url" class="form-control" placeholder="Product link from shopee...">
+			<span class="input-group-append">
+				<button class="btn btn-secondary" type="button" id="btnGo">Go!</button>
+			</span>
+		</div>
+	</div>
+</div>
+<div id="items-grid"></div>
+<script>
+	$(function () {
+		$('#btnGo').on('click', () => {
+			$('#btnGo').prop('disabled', true);
+			const _keyUrl = $('#qd_url').val();
+			var _data = {
+				shopeeUrl: _keyUrl
+			}
+			const _url = '@Url.Action("CrawledDataOneProductAsync", "Crawl")';
+			PostAction(_url, '#items-grid', _data).always(() => {
+				$('#btnGo').prop('disabled', false);
+			});
+		})
+	})
+</script>

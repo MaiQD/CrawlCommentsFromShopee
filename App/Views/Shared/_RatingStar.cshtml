@@ -1,0 +1,13 @@
+﻿@model decimal
+
+@for (int star = 0; star < 5; star++)
+{
+	if (star < Model)
+	{
+		<span class="fa fa-star checked"></span>
+	}
+	else
+	{
+		<span class="fa fa-star"></span>
+	}
+}
