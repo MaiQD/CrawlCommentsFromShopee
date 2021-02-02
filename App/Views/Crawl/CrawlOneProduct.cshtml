@@ -1,4 +1,8 @@
-﻿<div class="card mb-4">
+﻿@{ 
+	ViewData["Title"] = "Get product's comments";
+}
+
+<div class="card mb-4">
 	<h6 class="card-header">
 		Put product link
 	</h6>
@@ -6,6 +10,14 @@
 
 		<div class="input-group">
 			<input type="text" id="qd_url" class="form-control" placeholder="Product link from shopee...">
+			<select class="custom-select" id="slStar">
+				<option value="0">All</option>
+				<option value="1">One star</option>
+				<option value="2">Two star</option>
+				<option value="3">Three star</option>
+				<option value="4">Four star</option>
+				<option value="5">Five star</option>
+			</select>
 			<span class="input-group-append">
 				<button class="btn btn-secondary" type="button" id="btnGo">Go!</button>
 			</span>
@@ -18,8 +30,10 @@
 		$('#btnGo').on('click', () => {
 			$('#btnGo').prop('disabled', true);
 			const _keyUrl = $('#qd_url').val();
+			const _star = $('#slStar').val();
 			var _data = {
-				shopeeUrl: _keyUrl
+				shopeeUrl: _keyUrl,
+				commentStar: _star
 			}
 			const _url = '@Url.Action("CrawledDataOneProductAsync", "Crawl")';
 			PostAction(_url, '#items-grid', _data).always(() => {

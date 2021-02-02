@@ -1,12 +1,14 @@
 ﻿@model IList<Rating>
 @{
 	Layout = null;
+	
 	int i = 0;
 }
 @if (Model != null && Model.Count > 0)
 {
-	<table  class="table">
-		<thead  class="thead-dark">
+	<label>Found @Model.Count comments</label>
+	<table class="table">
+		<thead class="thead-dark">
 			<tr>
 				<th scope="col">Stt</th>
 				<th scope="col">Rating star</th>
@@ -17,23 +19,14 @@
 
 			@foreach (var item in Model)
 			{
-			<tr>
-				<th scope="row">@(++i)</th>
-				<td class="row">
-					@for (int star = 0; star < 5; star++)
-					{
-						if (star < item.rating_star)
-						{
-							<span class="fa fa-star checked"></span>
-						}
-						else
-						{
-							<span class="fa fa-star"></span>
-						}
-					}
-				</td>
-				<td>@item.comment</td>
-			</tr>
+				<tr>
+					<th scope="row">@(++i)</th>
+					<td class="row">
+						@await Html.PartialAsync("_RatingStar.cshtml", item.rating_star)
+
+					</td>
+					<td>@item.comment</td>
+				</tr>
 			}
 
 
@@ -42,7 +35,7 @@
 }
 else
 {
-	<text>There are no comments in this product</text>
+	<text>No comments</text>
 
 }
 <style>

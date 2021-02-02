@@ -30,8 +30,9 @@ namespace App.Services
                 if (response.IsSuccessStatusCode)
                 {
                     //string json
-                    var res = await response.Content.ReadAsStringAsync();
-                    dataret = res.toEntity<T>();
+                    //var res = await response.Content.ReadAsStringAsync();
+                    //dataret = res.toEntity<T>();
+                    dataret = await response.Content.ReadAsAsync<T>();
                 }
 
             }

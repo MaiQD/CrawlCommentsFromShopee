@@ -22,12 +22,13 @@ namespace App.Controllers
 			return View();
 		}
 		[HttpPost]
-		public async Task<IActionResult> CrawledDataOneProductAsync(string shopeeUrl)
+		public async Task<IActionResult> CrawledDataOneProductAsync(string shopeeUrl,int commentStar)
 		{
 			var list = new List<Rating>() ;
 			if (!string.IsNullOrEmpty(shopeeUrl))
 			{
 				var searhModel = shopeeUrl.GetItemAndShopIdFromUrl();
+				searhModel.type = commentStar;
 				while (true)
 				{
 					var res = await _apiServices.GetObjectApi<GetRatingResponseModel>(Common._urlGetRating, searhModel);
