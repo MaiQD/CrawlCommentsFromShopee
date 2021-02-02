@@ -7,21 +7,23 @@
 		Put product link
 	</h6>
 	<div class="card-body demo-vertical-spacing-sm">
-
-		<div class="input-group">
-			<input type="text" id="qd_url" class="form-control" placeholder="Product link from shopee...">
-			<select class="custom-select" id="slStar">
-				<option value="0">All</option>
-				<option value="1">One star</option>
-				<option value="2">Two star</option>
-				<option value="3">Three star</option>
-				<option value="4">Four star</option>
-				<option value="5">Five star</option>
-			</select>
-			<span class="input-group-append">
-				<button class="btn btn-secondary" type="button" id="btnGo">Go!</button>
-			</span>
-		</div>
+		<form asp-action="ExportOneProduct" asp-controller="Crawl" asp->
+			<div class="input-group">
+				<input type="text" name="shopeeUrl" id="shopeeUrl" class="form-control" placeholder="Product link from shopee...">
+				<select class="custom-select" id="commentStar" name="commentStar">
+					<option value="0">All</option>
+					<option value="1">One star</option>
+					<option value="2">Two star</option>
+					<option value="3">Three star</option>
+					<option value="4">Four star</option>
+					<option value="5">Five star</option>
+				</select>
+				<span class="input-group-append">
+					<a class="btn btn-secondary" href="javascript:void(0);" id="btnGo">Preview</a>
+					<button class="btn btn-success" type="submit" id="btnGo">Export Excel</button>
+				</span>
+			</div>
+		</form>
 	</div>
 </div>
 <div id="items-grid"></div>
@@ -29,8 +31,8 @@
 	$(function () {
 		$('#btnGo').on('click', () => {
 			$('#btnGo').prop('disabled', true);
-			const _keyUrl = $('#qd_url').val();
-			const _star = $('#slStar').val();
+			const _keyUrl = $('#shopeeUrl').val();
+			const _star = $('#commentStar').val();
 			var _data = {
 				shopeeUrl: _keyUrl,
 				commentStar: _star

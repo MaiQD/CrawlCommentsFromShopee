@@ -12,6 +12,7 @@ namespace App.Models
 		public decimal rating_star { get; set; }
 		public long cmtid  { get; set; }
 		public string comment { get; set; }
+		public string author_username { get; set; }
 
 	}
 	public class RatingSearchModel

@@ -1,17 +1,18 @@
 ﻿@model IList<Rating>
 @{
 	Layout = null;
-	
+
 	int i = 0;
 }
 @if (Model != null && Model.Count > 0)
 {
-	<label>Found @Model.Count comments</label>
+	<label>Found @Model.Count comments. @Model.Where(p => p.rating_star == 5).Count() five star, @Model.Where(p => p.rating_star == 4).Count() four star, @Model.Where(p => p.rating_star == 3).Count() three star, @Model.Where(p => p.rating_star == 2).Count() two star, @Model.Where(p => p.rating_star == 1).Count() one star</label>
 	<table class="table">
 		<thead class="thead-dark">
 			<tr>
 				<th scope="col">Stt</th>
 				<th scope="col">Rating star</th>
+				<th scope="col">Username</th>
 				<th scope="col">Comment</th>
 			</tr>
 		</thead>
@@ -25,6 +26,7 @@
 						@await Html.PartialAsync("_RatingStar.cshtml", item.rating_star)
 
 					</td>
+					<td>@item.author_username</td>
 					<td>@item.comment</td>
 				</tr>
 			}

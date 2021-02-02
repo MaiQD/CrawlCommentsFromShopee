@@ -1,0 +1,2 @@
+git remote add azure-deploy https://crawlcommentshopee.scm.azurewebsites.net:443/crawlcommentshopee.git
+git push azure-deploy main:master
