@@ -1,4 +1,5 @@
-﻿using App.Services;
+﻿using App.Factories;
+using App.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,6 +15,7 @@ namespace App.Extensions
 		{
 			//tạo dependency injection cho Token Service
 			services.AddScoped<IApiServices, ApiServices>();
+			services.AddScoped<IRatingFactory, RatingFactory>();
 			return services;
 		}
 	}
