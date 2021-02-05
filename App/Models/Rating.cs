@@ -5,17 +5,22 @@ using System.Threading.Tasks;
 
 namespace App.Models
 {
-	public class Rating
+	public partial class Rating
 	{
 		public long itemid { get; set; }
 		public decimal rating { get; set; }
 		public decimal rating_star { get; set; }
-		public long cmtid  { get; set; }
+		public long cmtid { get; set; }
 		public string comment { get; set; }
 		public string author_username { get; set; }
 
 	}
-	public class RatingSearchModel
+	public enum enum_filter_rating{
+		Tat_ca=0,
+		Co_binh_luan=1,
+		Co_hinh_anh_video=3
+	}
+	public partial class RatingSearchModel
 	{
 		public RatingSearchModel(int filter, int flag, long itemid, long shopid, int limit, long offset, int type)
 		{
@@ -29,7 +34,7 @@ namespace App.Models
 		}
 		public RatingSearchModel(long itemid, long shopid)
 		{
-			this.filter = 0;
+			this.filter = (int)enum_filter_rating.Co_binh_luan;
 			this.flag = 1;
 			this.itemid = itemid;
 			this.shopid = shopid;

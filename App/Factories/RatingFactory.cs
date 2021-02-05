@@ -26,10 +26,10 @@ namespace App.Factories
 			while (true)
 			{
 				var res = await _apiServices.GetObjectApi<GetRatingResponseModel>(Common._urlGetRating, searchModel);
-				if (res?.data != null && res?.data?.ratings != null && res.data.ratings.Count > 0)
-					list.AddRange(res.data.ratings.Where(p => !string.IsNullOrEmpty(p.comment)));
-				else
+
+				if (res?.data?.ratings == null || searchModel.offset > res.data.item_rating_summary.rcount_with_context)
 					break;
+				list.AddRange(res.data.ratings.Where(p => !string.IsNullOrEmpty(p.comment)));
 				searchModel.offset += searchModel.limit;
 			}
 			return list;

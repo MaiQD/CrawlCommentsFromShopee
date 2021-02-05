@@ -16,6 +16,7 @@ namespace App.Extensions
 			//tạo dependency injection cho Token Service
 			services.AddScoped<IApiServices, ApiServices>();
 			services.AddScoped<IRatingFactory, RatingFactory>();
+			services.AddScoped<IProductFactory, ProductFactory>();
 			return services;
 		}
 	}

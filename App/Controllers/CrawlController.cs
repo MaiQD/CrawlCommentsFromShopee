@@ -1,44 +1,56 @@
 ﻿using App.CommonHelper;
 using App.Factories;
 using App.Models;
-using App.Services;
 using ClosedXML.Excel;
+using Fizzler.Systems.HtmlAgilityPack;
+using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace App.Controllers
 {
 	public class CrawlController : BaseController
 	{
-		private readonly IApiServices _apiServices;
 		private readonly IRatingFactory _ratingFactory;
+		private readonly IProductFactory _productFactory;
 
-		public CrawlController(IApiServices apiServices,IRatingFactory ratingFactory)
+		#region constructor
+
+		public CrawlController(IRatingFactory ratingFactory,IProductFactory productFactory)
 		{
-			_apiServices = apiServices;
 			_ratingFactory = ratingFactory;
+			_productFactory = productFactory;
 		}
+
+		#endregion constructor
+
+		#region public methods
+
+		#region Scraping one product
+
 		public IActionResult CrawlOneProduct()
 		{
 			return View();
 		}
+
 		[HttpPost]
-		public async Task<IActionResult> CrawledDataOneProductAsync(string shopeeUrl,int commentStar)
+		public async Task<IActionResult> CrawledDataOneProductAsync(string shopeeUrl, int commentStar)
 		{
-			var list = new List<Rating>() ;
+			var list = new List<Rating>();
 			if (!string.IsNullOrEmpty(shopeeUrl))
 			{
 				var searchModel = shopeeUrl.GetItemAndShopIdFromUrl();
 				searchModel.type = commentStar;
 				list = await _ratingFactory.PrepareRatingsForOneProductAsync(searchModel);
 			}
-			
+
 			return ShowCrawledData(list);
 		}
+
+		[HttpPost]
 		public async Task<IActionResult> ExportOneProduct(string shopeeUrl, int commentStar)
 		{
 			var list = new List<Rating>();
@@ -50,6 +62,32 @@ namespace App.Controllers
 			}
 			return GetRatingsFile(list);
 		}
+
+		#endregion Scraping one product
+
+		#region Scraping list product
+
+		public IActionResult CrawlListProduct()
+		{
+			return View();
+		}
+		[HttpPost]
+		public async Task<IActionResult> CrawledDataListProductAsync(string keySearch, int commentStar)
+		{
+			var list = new List<Rating>();
+			if (!string.IsNullOrEmpty(keySearch))
+			{
+				var searchModel = new ProductSearchModel(keySearch, 0);
+				var listProduct = await _productFactory.PrepareListProductAsync(searchModel);
+			}
+			return ShowCrawledData(list);
+		}
+		#endregion Scraping list product
+
+		#endregion public methods
+
+		#region private methods
+
 		private IActionResult GetRatingsFile(List<Rating> list)
 		{
 			string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -72,7 +110,8 @@ namespace App.Controllers
 				return RedirectToAction("Error", "Home");
 			}
 		}
-		private void SetUpWorkBook(XLWorkbook workbook,List<Rating> ratings)
+
+		private void SetUpWorkBook(XLWorkbook workbook, List<Rating> ratings)
 		{
 			IXLWorksheet worksheet =
 					workbook.Worksheets.Add("Authors");
@@ -90,5 +129,7 @@ namespace App.Controllers
 				index++;
 			}
 		}
+
+		#endregion private methods
 	}
 }

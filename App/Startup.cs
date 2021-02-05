@@ -1,4 +1,5 @@
 ﻿using App.Extensions;
+using App.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,9 +15,12 @@ namespace App
 {
 	public class Startup
 	{
-		public Startup(IConfiguration configuration)
+		private readonly IHostingEnvironment _hostingEnvironment;
+
+		public Startup(IConfiguration configuration,IHostingEnvironment hostingEnvironment)
 		{
 			Configuration = configuration;
+			_hostingEnvironment = hostingEnvironment;
 		}
 
 		public IConfiguration Configuration { get; }
@@ -38,15 +42,15 @@ namespace App
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Home/Error");
-			}
-
+			//if (env.IsDevelopment())
+			//{
+			//	app.UseDeveloperExceptionPage();
+			//}
+			//else
+			//{
+			//	app.UseExceptionHandler("/Home/Error");
+			//}
+			app.UseMyExceptionHandler(_hostingEnvironment);
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
 

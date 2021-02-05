@@ -19,5 +19,13 @@ namespace App.Models
 			List<Rating> ratings = new List<Rating>();
 		}
 		public List<Rating> ratings { get; set; }
+		public GetRatingResponseSumary item_rating_summary { get; set; }
+	}
+	public class GetRatingResponseSumary
+	{
+		public long rcount_with_context { get; set; }
+		public long rcount_with_media { get; set; }
+		public long rating_total { get; set; }
+		public long rcount_with_image { get; set; }
 	}
 }

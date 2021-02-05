@@ -1,0 +1,46 @@
+﻿@{
+	ViewData["Title"] = "Get product's comments";
+}
+
+<div class="card mb-4">
+	<h6 class="card-header">
+		Put product link
+	</h6>
+	<div class="card-body demo-vertical-spacing-sm">
+		<form asp-action="ExportListProduct" asp-controller="Crawl" asp->
+			<div class="input-group">
+				<input type="text" name="keySearch" id="keySearch" class="form-control" placeholder="Key search...">
+				<select class="custom-select" id="commentStar" name="commentStar">
+					<option value="0">All</option>
+					<option value="1">One star</option>
+					<option value="2">Two star</option>
+					<option value="3">Three star</option>
+					<option value="4">Four star</option>
+					<option value="5">Five star</option>
+				</select>
+				<span class="input-group-append">
+					<a class="btn btn-secondary" href="javascript:void(0);" id="btnGo">Preview</a>
+					<button class="btn btn-success" type="submit" id="btnGo">Export Excel</button>
+				</span>
+			</div>
+		</form>
+	</div>
+</div>
+<div id="items-grid"></div>
+<script>
+	$(function () {
+		$('#btnGo').on('click', () => {
+			$('#btnGo').prop('disabled', true);
+			const _keySearch = $('#keySearch').val();
+			const _star = $('#commentStar').val();
+			var _data = {
+				keySearch: _keySearch,
+				commentStar: _star
+			}
+			const _url = '@Url.Action("CrawledDataListProductAsync", "Crawl")';
+			PostAction(_url, '#items-grid', _data).always(() => {
+				$('#btnGo').prop('disabled', false);
+			});
+		})
+	})
+</script>
