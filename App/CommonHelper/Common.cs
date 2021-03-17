@@ -11,7 +11,9 @@ namespace App.CommonHelper
 		public static string _baseUrl = @"https://shopee.vn";
 		public static string _urlGetRating = @"/api/v2/item/get_ratings";
 		public static string _urlSearch = @"/api/v2/search_items/";
-		public static RatingSearchModel GetItemAndShopIdFromUrl(this string _url)
+        public static string _urlRecommend = @"/api/v4/recommend/recommend?bundle=daily_discover_main&item_card=2&limit=10000&offset=0";
+
+        public static RatingSearchModel GetItemAndShopIdFromUrl(this string _url)
 		{
 			var itemAndShopId = _url.Split("-i.")[1].Split(".");
 			var itemId = long.Parse(itemAndShopId[1]);

@@ -2,8 +2,6 @@
 using App.Factories;
 using App.Models;
 using ClosedXML.Excel;
-using Fizzler.Systems.HtmlAgilityPack;
-using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,7 +17,7 @@ namespace App.Controllers
 
 		#region constructor
 
-		public CrawlController(IRatingFactory ratingFactory,IProductFactory productFactory)
+		public CrawlController(IRatingFactory ratingFactory, IProductFactory productFactory)
 		{
 			_ratingFactory = ratingFactory;
 			_productFactory = productFactory;
@@ -71,6 +69,7 @@ namespace App.Controllers
 		{
 			return View();
 		}
+
 		[HttpPost]
 		public async Task<IActionResult> CrawledDataListProductAsync(string keySearch, int commentStar)
 		{
@@ -82,7 +81,51 @@ namespace App.Controllers
 			}
 			return ShowCrawledData(list);
 		}
+
 		#endregion Scraping list product
+
+		#region Scraping recommend product
+
+		public IActionResult CrawlRecommendProduct()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CrawledDataRecommendProductAsync()
+		{
+			var list_product = await _productFactory.PrepareListRecommendProductAsync();
+			var list_rating = new List<Rating>();
+			if (list_product != null && list_product.Count>0)
+			{
+				foreach (var product in list_product)
+				{
+					var ratingSearchModel = new RatingSearchModel(product.itemid, product.shopid);
+					var get_list_rating = await _ratingFactory.PrepareRatingsForOneProductAsync(ratingSearchModel);
+					list_rating.AddRange(get_list_rating);
+				}
+			}
+			return ShowCrawledData(list_rating);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> ExportRecommendProduct(string shopeeUrl, int commentStar)
+		{
+			var list_product = await _productFactory.PrepareListRecommendProductAsync();
+			var list_rating = new List<Rating>();
+			if (list_product != null && list_product.Count > 0)
+			{
+				foreach (var product in list_product)
+				{
+					var ratingSearchModel = new RatingSearchModel(product.itemid, product.shopid);
+					var get_list_rating = await _ratingFactory.PrepareRatingsForOneProductAsync(ratingSearchModel);
+					list_rating.AddRange(get_list_rating);
+				}
+			}
+			return GetRatingsFile(list_rating);
+		}
+
+		#endregion Scraping recommend product
 
 		#endregion public methods
 

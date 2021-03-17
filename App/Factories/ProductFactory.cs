@@ -11,6 +11,7 @@ namespace App.Factories
 	public interface IProductFactory
 	{
 		Task<List<Product>> PrepareListProductAsync(ProductSearchModel searchModel);
+		Task<List<Product>> PrepareListRecommendProductAsync();
 	}
 	public class ProductFactory: IProductFactory
 	{
@@ -33,6 +34,11 @@ namespace App.Factories
 			//	searchModel.offset += searchModel.limit;
 			//}
 			return list;
+		}
+		public virtual async Task<List<Product>> PrepareListRecommendProductAsync()
+		{
+			var res = await _apiServices.GetObjectApi<GetProductRecommendResponseModel>(Common._urlRecommend);
+			return res?.data?.sections?.FirstOrDefault()?.data?.item;
 		}
 	}
 }

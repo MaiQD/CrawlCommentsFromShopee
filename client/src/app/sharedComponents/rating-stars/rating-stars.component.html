@@ -1,0 +1,12 @@
+<div class="row">
+    <ng-container *ngFor="let item of numbers">
+        <div *ngIf="item<numberStars;then golden_star else blank_star">here is ignored</div>
+    </ng-container>
+
+</div>
+<ng-template #golden_star>
+    <span class="fa fa-star checked"></span>
+</ng-template>
+<ng-template #blank_star>
+    <span class="fa fa-star"></span>
+</ng-template>

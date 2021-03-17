@@ -1,0 +1,33 @@
+﻿@{
+	ViewData["Title"] = "Get product's comments";
+}
+
+<div class="card mb-4">
+	<h6 class="card-header">
+		Put product link
+	</h6>
+	<div class="card-body demo-vertical-spacing-sm">
+		<form asp-action="ExportRecommendProduct" asp-controller="Crawl" asp->
+			<div class="input-group">
+				<span class="input-group-append">
+					<a class="btn btn-secondary" href="javascript:void(0);" id="btnGo">Preview</a>
+					<button class="btn btn-success" type="submit" id="btnGo">Export Excel</button>
+				</span>
+			</div>
+		</form>
+	</div>
+</div>
+<div id="items-grid"></div>
+<script>
+	$(function () {
+		$('#btnGo').on('click', () => {
+			$('#btnGo').prop('disabled', true);
+			var _data = {
+			}
+			const _url = '@Url.Action("CrawledDataRecommendProductAsync", "Crawl")';
+			PostAction(_url, '#items-grid', _data).always(() => {
+				$('#btnGo').prop('disabled', false);
+			});
+		})
+	})
+</script>

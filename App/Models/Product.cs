@@ -8,6 +8,7 @@ namespace App.Models
 	public partial class Product
 	{
 		public long itemid { get; set; }
+		public long shopid { get; set; }
 		public string name { get; set; }
 	}
 	public partial class ProductSearchModel
@@ -20,7 +21,7 @@ namespace App.Models
 			this.newest = newest;
 			order = "desc";
 			page_type = "search";
-			version = 2;
+			//version = 2;
 		}
 		public string by { get; set; }
 		public string keyword { get; set; }
@@ -28,6 +29,6 @@ namespace App.Models
 		public long newest { get; set; }
 		public string order { get; set; }
 		public string page_type { get; set; }
-		public int version { get; set; }
+		//public int version { get; set; }
 	}
 }

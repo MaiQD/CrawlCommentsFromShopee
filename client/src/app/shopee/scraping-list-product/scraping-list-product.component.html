@@ -1,0 +1,57 @@
+<div class="container-fluid flex-grow-1 container-p-y">
+    <main role="main" class="pb-3">
+        <div class="row">
+            <div class="col-8 " style="overflow:auto; height: 600px;">
+                <ng-container>
+                    <table class="table  ">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Stt</th>
+                                <th class="text-center">Số sao</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Tên người dùng</th>
+                                <th>Nội dung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let rating of ratings, index as i">
+                                <td scope="row">{{i+1}}</td>
+                                <td width="200px" class="">
+                                    <app-rating-stars [numberStars]="rating.rating_star"></app-rating-stars>
+                                </td>
+                                <td scope="row">{{rating.product_items[0]?.name}}</td>
+                                <td>
+                                    {{rating.author_username}}
+                                </td>
+                                <td>{{rating.comment}} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </ng-container>
+
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        Thông tin cần scraping
+                    </div>
+                    <div class="card-body">
+                        <form id="submitForm" #f="ngForm" (ngSubmit)="getProducts()">
+                            <div class="form-group row">
+                                <input name="keySearch" type="text" class="form-control" [(ngModel)]="model.keyword" placeholder="Từ khóa tìm kiếm">
+                            </div>
+                            <div class="form-group row">
+                                <input type="number" name="" id="" class="form-control" placeholder="Số lượng sản phẩm scraping" aria-describedby="txtKeySearch">
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="card-footer text-muted text-right">
+                        <button form="submitForm" type="submit" class="btn btn-sm btn-secondary">Thực hiện</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
